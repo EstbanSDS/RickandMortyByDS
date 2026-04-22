@@ -1,6 +1,7 @@
 package com.example.rickandmortybyds.domain.model.usecase
 
 import com.example.rickandmortybyds.core.network.NetWork
+import com.example.rickandmortybyds.domain.model.RAMCharacterResponse
 import com.example.rickandmortybyds.domain.model.RickAndMortyDetailResponse
 import com.example.rickandmortybyds.domain.model.repository.RickAndMortyRepository
 import com.example.rickandmortybyds.utils.application.ApiServiceState
@@ -20,6 +21,12 @@ class RickAndMortyUseCaseImpl @Inject constructor(
     override suspend fun getAllCharactersDB(): Flow<ApiServiceState<RickAndMortyDetailResponse>> {
         return network.executeEndPoint {
             repository.getAllCharactersDB()
+        }
+    }
+
+    override suspend fun getCharacterByIdDB(characterId: Int): Flow<ApiServiceState<RAMCharacterResponse>> {
+        return network.executeEndPoint {
+            repository.getCharacterByIdDB(characterId)
         }
     }
 }

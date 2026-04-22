@@ -119,7 +119,7 @@ class NetWork @Inject constructor(@ApplicationContext val context: Context) {
         return response ?: "Error desconocido"
     }
 
-    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)  // se agrego por el "connectivityManager" li121
+    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     @JvmName("isNetworkAvailable1")
     fun isNetworkAvailable(): Boolean {
         val connectivityManager =

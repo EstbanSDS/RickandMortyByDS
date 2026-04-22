@@ -3,6 +3,7 @@ package com.example.rickandmortybyds.domain.model.repository
 import com.example.rickandmortybyds.core.network.ApiServiceRickAndMorty
 import com.example.rickandmortybyds.core.room.dao.RAMDao
 import com.example.rickandmortybyds.core.room.entity.CharactersEntity
+import com.example.rickandmortybyds.domain.model.RAMCharacterResponse
 import com.example.rickandmortybyds.domain.model.RickAndMortyDetailResponse
 import com.example.rickandmortybyds.utils.toEntity
 import kotlinx.coroutines.Dispatchers
@@ -45,5 +46,11 @@ class RickAndMortyRepositoryImpl @Inject constructor(
                 throw Exception("Error del servidor: ${ramCharacters.code()}")
             }
         }
+    }
+
+    override suspend fun getCharacterByIdDB(characterId: Int): RAMCharacterResponse {
+        val characterDB = ramCharacterDao.getCharacterById(characterId) ?: CharactersEntity()
+        val character = characterDB.toEntity()
+        return character
     }
 }
