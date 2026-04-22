@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RickandMorty By DS</string>
+    <string name="msg_without_network">No estás conectado a Internet</string>
+</resources>
