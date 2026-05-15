@@ -29,10 +29,10 @@ fun NavigationWrapper(navController: NavHostController) {
         }
 
         composable<RAMCharacterDetailRoute> { backStackEntry ->
-            val character = backStackEntry.toRoute<RAMCharacterDetailRoute>()
+//            val character = backStackEntry.toRoute<RAMCharacterDetailRoute>()
             RAMACharacterDetailScreen(
 
-                characterId = character.characterId,
+//                characterId = character.characterId,
                 navigationBack = { navController.navigate(RAMAllCharactersRoute) }
             )
         }

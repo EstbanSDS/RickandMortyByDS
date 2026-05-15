@@ -24,16 +24,19 @@ import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 @Composable
 fun RAMACharacterDetailScreen(
     viewModel: RAMCharacterDBViewModel = hiltViewModel(),
-    characterId: Int,
+   /* characterId: Int,*/
     navigationBack: () -> Unit,
 ) {
     val ramCharacterDB = viewModel.ramCharacterDB.collectAsState()
     val character = ramCharacterDB.value.rickAndMortyDetail
-    val context = LocalContext.current
+//    val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
+
+   /* LaunchedEffect(Unit) {
         viewModel.getRAMCharacterById(characterId)
-    }
+    }*/
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()

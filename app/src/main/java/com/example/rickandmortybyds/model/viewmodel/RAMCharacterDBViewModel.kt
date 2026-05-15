@@ -1,5 +1,6 @@
 package com.example.rickandmortybyds.model.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortybyds.core.model.ramCharacters.RAMCharacterUiState
@@ -17,9 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RAMCharacterDBViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,  // Contenedor de estado que android entrega al VM (guardar y recuperar: arg de navegacion, estado temporal, datos necesaris para reconstruir el VM)
     private val rickAndMortyUseCase: RickAndMortyUseCase,
     private val rickAndMortyRepository: RickAndMortyRepository,
 ) : ViewModel() {
+
+    private val characterID = checkNotNull(savedStateHandle.get<Int>("characterId")) // “Busca dentro del SavedStateHandle un valor llamado "characterId" de tipo Int”
+
+    init {
+        getRAMCharacterById(characterID)
+    }
 
     private val _ramCharacterDB = MutableStateFlow(RAMCharacterUiState())
     val ramCharacterDB: StateFlow<RAMCharacterUiState> = _ramCharacterDB.asStateFlow()
