@@ -25,7 +25,6 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         return ramCharacterDao.getAllCharacters()
     }
 
-
     override suspend fun getAllCharactersDB(): RickAndMortyDetailResponse {
         return withContext(Dispatchers.IO){
             val ramCharacters = apiService.getRickAndMortyInformationDetail()
@@ -37,6 +36,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(
                         val characterExsist = ramCharacterDao.getCharacterById(apiCharacter.id!!)
                         apiCharacter.toEntity()
                     }
+//                    body
                     ramCharacterDao.insertAllCharacters(ramEntities!!)
                     body
                 } else{

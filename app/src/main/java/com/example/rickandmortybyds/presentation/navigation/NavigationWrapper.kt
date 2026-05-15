@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.example.rickandmortybyds.model.viewmodel.RickAndMortyViewModel
+import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 import com.example.rickandmortybyds.presentation.screens.RAMACharacterDetailScreen
 import com.example.rickandmortybyds.presentation.screens.RAMAllCharactersScreen
 
@@ -19,9 +19,9 @@ fun NavigationWrapper(navController: NavHostController) {
     ) {
 
         composable<RAMAllCharactersRoute> {
-            val viewModel: RickAndMortyViewModel = hiltViewModel()
+
             RAMAllCharactersScreen(
-                viewModel = viewModel,
+
                 navigateToCharacterDetail = { characterId ->
                     navController.navigate(RAMCharacterDetailRoute(characterId))
                 }
@@ -31,12 +31,10 @@ fun NavigationWrapper(navController: NavHostController) {
         composable<RAMCharacterDetailRoute> { backStackEntry ->
             val character = backStackEntry.toRoute<RAMCharacterDetailRoute>()
             RAMACharacterDetailScreen(
-                viewModel = hiltViewModel(),
+
                 characterId = character.characterId,
                 navigationBack = { navController.navigate(RAMAllCharactersRoute) }
             )
         }
-
     }
-
 }

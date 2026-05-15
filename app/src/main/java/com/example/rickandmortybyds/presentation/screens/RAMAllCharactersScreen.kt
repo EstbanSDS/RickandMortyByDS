@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,27 +19,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.rickandmortybyds.model.viewmodel.RickAndMortyViewModel
+import com.example.rickandmortybyds.model.viewmodel.RAMAllCharactersVM
 import com.example.rickandmortybyds.utils.dialogs.CommonDialog
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun RAMAllCharactersScreen(
-    viewModel: RickAndMortyViewModel,
+    viewModel: RAMAllCharactersVM = hiltViewModel(),
+
     navigateToCharacterDetail: (Int) -> Unit,
 ) {
 
     val ramData by viewModel.rickAndMortyData.collectAsState()
-    val ramDataDBState = viewModel.ramCharactersDB.collectAsState()
-    LaunchedEffect(Unit) {
+
+    val characterList by viewModel.ramCharactersDB.collectAsState()
+
+    /*LaunchedEffect(Unit) {
         viewModel.getRAMAllCharacters()
-    }
+    }*/
 
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        val name = ramDataDBState.value
+
         val context = LocalContext.current
+
         if (ramData.loading) {
             CircularProgressIndicator()
         }
@@ -73,7 +77,7 @@ fun RAMAllCharactersScreen(
 
         )
         {
-            items(name) { character ->
+            items(characterList) { character ->
 
                 Column(
                     modifier = Modifier

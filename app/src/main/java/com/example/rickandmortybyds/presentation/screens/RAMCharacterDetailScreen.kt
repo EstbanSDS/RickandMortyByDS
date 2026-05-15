@@ -1,6 +1,5 @@
 package com.example.rickandmortybyds.presentation.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,17 +16,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.rickandmortybyds.model.viewmodel.RickAndMortyViewModel
+import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 
 
 @Composable
 fun RAMACharacterDetailScreen(
-    viewModel: RickAndMortyViewModel,
+    viewModel: RAMCharacterDBViewModel = hiltViewModel(),
     characterId: Int,
     navigationBack: () -> Unit,
 ) {
-
     val ramCharacterDB = viewModel.ramCharacterDB.collectAsState()
     val character = ramCharacterDB.value.rickAndMortyDetail
     val context = LocalContext.current
