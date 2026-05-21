@@ -10,4 +10,6 @@ object Constants {
 
     // EndPoint
     const val GET_ALL_CHARACTERS = "character"
+
+    const val GET_EPISODE = "episode/{id}"
  }

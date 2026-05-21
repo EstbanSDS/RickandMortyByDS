@@ -3,8 +3,7 @@ package com.example.rickandmortybyds.model.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rickandmortybyds.core.model.ramCharacters.RAMCharacterUiState
-import com.example.rickandmortybyds.domain.model.repository.RickAndMortyRepository
+import com.example.rickandmortybyds.core.model.ramCharacters.RAMEpisodeNumberUiState
 import com.example.rickandmortybyds.domain.model.usecase.RickAndMortyUseCase
 import com.example.rickandmortybyds.utils.application.ApiServiceState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,28 +16,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RAMCharacterDBViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,  // Contenedor de estado que android entrega al VM (guardar y recuperar: arg de navegacion, estado temporal, datos necesaris para reconstruir el VM)
+class RAMEpisodeVM @Inject constructor(
     private val rickAndMortyUseCase: RickAndMortyUseCase,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val characterID =
-        checkNotNull(savedStateHandle.get<Int>("characterId")) // “Busca dentro del SavedStateHandle un valor llamado "characterId" de tipo Int”
+    private val episodeNumber =
+        checkNotNull(savedStateHandle.get<Int>("episodeNumber"))
 
     init {
-        getRAMCharacterById(characterID)
+        getRAMEpisodeNumber(episodeNumber)
     }
 
-    private val _ramCharacterDB = MutableStateFlow(RAMCharacterUiState())
-    val ramCharacterDB: StateFlow<RAMCharacterUiState> = _ramCharacterDB.asStateFlow()
+    private val _ramEpisodeNumber = MutableStateFlow(RAMEpisodeNumberUiState())
+    val ramEpisodeNumber: StateFlow<RAMEpisodeNumberUiState> = _ramEpisodeNumber.asStateFlow()
 
-    fun getRAMCharacterById(characterID: Int) {
+    fun getRAMEpisodeNumber(episodeNumber: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            rickAndMortyUseCase.getCharacterByIdDB(characterID).collect { response ->
+            rickAndMortyUseCase.getEpisodeByNumber(episodeNumber).collect { response ->
 
                 when (response) {
                     ApiServiceState.Loading -> {
-                        _ramCharacterDB.update {
+                        _ramEpisodeNumber.update {
                             it.copy(
                                 loading = true
                             )
@@ -47,20 +46,20 @@ class RAMCharacterDBViewModel @Inject constructor(
 
                     is ApiServiceState.Success -> {
                         response.data?.let { data ->
-                            _ramCharacterDB.update {
+                            _ramEpisodeNumber.update {
                                 it.copy(
                                     loading = false,
-                                    rickAndMortyDetail = data
+                                    ramEpisodeNumberDetail = data
                                 )
                             }
                         }
                     }
 
                     is ApiServiceState.Error -> {
-                        _ramCharacterDB.update {
+                        _ramEpisodeNumber.update {
                             it.copy(
                                 loading = false,
-                                rickAndMortyDetail = null
+                                ramEpisodeNumberDetail = null
                             )
                         }
                     }

@@ -5,6 +5,7 @@ import com.example.rickandmortybyds.core.room.dao.RAMDao
 import com.example.rickandmortybyds.core.room.entity.CharactersEntity
 import com.example.rickandmortybyds.domain.model.RAMCharacterResponse
 import com.example.rickandmortybyds.domain.model.RickAndMortyDetailResponse
+import com.example.rickandmortybyds.domain.model.usecase.RAMEpisodeResponse
 import com.example.rickandmortybyds.utils.toEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -12,8 +13,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RickAndMortyRepositoryImpl @Inject constructor(
+
     private val apiService: ApiServiceRickAndMorty,
-    private val ramCharacterDao: RAMDao
+    private val ramCharacterDao: RAMDao,
+
 ): RickAndMortyRepository{
     override suspend fun getRickAndMortyDetail(): RickAndMortyDetailResponse {
         return withContext(Dispatchers.IO){
@@ -53,4 +56,17 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         val character = characterDB.toEntity()
         return character
     }
+
+    override suspend fun getEpisodeByNumber(episodeNumber: Int): RAMEpisodeResponse {
+       return withContext(Dispatchers.IO) {
+           apiService.getRAMEpisodeByNumber(episodeNumber)
+       }
+    }
+
+    /*override suspend fun getEpisodeByNumber(episodeNumber: Int): RAMEpisodeResponse{
+
+    }*/
+
+
+
 }

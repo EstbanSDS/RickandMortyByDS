@@ -29,4 +29,10 @@ class RickAndMortyUseCaseImpl @Inject constructor(
             repository.getCharacterByIdDB(characterId)
         }
     }
+
+    override suspend fun getEpisodeByNumber(episodeNumber: Int): Flow<ApiServiceState<RAMEpisodeResponse>> {
+        return network.executeEndPoint {
+            repository.getEpisodeByNumber(episodeNumber)
+        }
+    }
 }

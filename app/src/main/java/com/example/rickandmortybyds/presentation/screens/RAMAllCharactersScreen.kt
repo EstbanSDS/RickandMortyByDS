@@ -1,5 +1,6 @@
 package com.example.rickandmortybyds.presentation.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -96,7 +97,13 @@ fun RAMAllCharactersScreen(
                         modifier = Modifier.size(150.dp)
                     )
                     Text(character.name ?: "nada")
+
+
+
                 }
+
+
+
                 Spacer(modifier = Modifier.height(14.dp))
             }
         }
