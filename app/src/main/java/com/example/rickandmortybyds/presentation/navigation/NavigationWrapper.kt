@@ -1,12 +1,9 @@
 package com.example.rickandmortybyds.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 import com.example.rickandmortybyds.presentation.screens.RAMACharacterDetailScreen
 import com.example.rickandmortybyds.presentation.screens.RAMAllCharactersScreen
 import com.example.rickandmortybyds.presentation.screens.RAMEpisodeDetailScreen
@@ -42,15 +39,10 @@ fun NavigationWrapper(navController: NavHostController) {
             )
         }
 
-        composable <RAMEpisodeRoute>{backStackEntry ->
-
+        composable<RAMEpisodeRoute> { backStackEntry ->
 
             RAMEpisodeDetailScreen(
-
-
-
             )
         }
-
     }
 }
