@@ -9,6 +9,7 @@ import androidx.navigation.toRoute
 import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 import com.example.rickandmortybyds.presentation.screens.RAMACharacterDetailScreen
 import com.example.rickandmortybyds.presentation.screens.RAMAllCharactersScreen
+import com.example.rickandmortybyds.presentation.screens.RAMEpisodeDetailScreen
 
 @Composable
 fun NavigationWrapper(navController: NavHostController) {
@@ -29,12 +30,27 @@ fun NavigationWrapper(navController: NavHostController) {
         }
 
         composable<RAMCharacterDetailRoute> { backStackEntry ->
-//            val character = backStackEntry.toRoute<RAMCharacterDetailRoute>()
-            RAMACharacterDetailScreen(
 
-//                characterId = character.characterId,
-                navigationBack = { navController.navigate(RAMAllCharactersRoute) }
+            RAMACharacterDetailScreen(
+                navigationBack = { navController.navigate(RAMAllCharactersRoute) },
+
+                navigateToEpisodeDetail = { episodeNumber ->
+                    navController.navigate(
+                        RAMEpisodeRoute(episodeNumber)
+                    )
+                }
             )
         }
+
+        composable <RAMEpisodeRoute>{backStackEntry ->
+
+
+            RAMEpisodeDetailScreen(
+
+
+
+            )
+        }
+
     }
 }

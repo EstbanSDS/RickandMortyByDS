@@ -9,3 +9,8 @@ object RAMAllCharactersRoute
 data class RAMCharacterDetailRoute(
     val characterId : Int = -1
 )
+
+@Serializable
+data class RAMEpisodeRoute(
+    val episodeNumber: Int
+)

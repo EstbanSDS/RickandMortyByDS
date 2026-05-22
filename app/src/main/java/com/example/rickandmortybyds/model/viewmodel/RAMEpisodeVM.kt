@@ -23,7 +23,6 @@ class RAMEpisodeVM @Inject constructor(
 
     private val episodeNumber =
         checkNotNull(savedStateHandle.get<Int>("episodeNumber"))
-
     init {
         getRAMEpisodeNumber(episodeNumber)
     }

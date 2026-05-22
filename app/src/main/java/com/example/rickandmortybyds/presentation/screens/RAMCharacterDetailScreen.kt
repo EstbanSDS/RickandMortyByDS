@@ -31,8 +31,8 @@ import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 @Composable
 fun RAMACharacterDetailScreen(
     viewModel: RAMCharacterDBViewModel = hiltViewModel(),
-    /* characterId: Int,*/
     navigationBack: () -> Unit,
+    navigateToEpisodeDetail: (Int) -> Unit,
 ) {
     val ramCharacterDB = viewModel.ramCharacterDB.collectAsState()
     val character = ramCharacterDB.value.rickAndMortyDetail
@@ -101,15 +101,23 @@ fun RAMACharacterDetailScreen(
             ) {
                 LazyColumn {
                     items(character.episode ?: emptyList()) { episode ->
-                        Text(episode)
+
+                        val episodeNumber = episode.substringAfterLast("/")
+
+                        Text(
+                            text = "Episodio: $episodeNumber",
+                            modifier = Modifier.clickable {
+                                navigateToEpisodeDetail(
+                                    episodeNumber.toInt()
+                                )
+                            }
+                        )
 
                         Spacer(modifier = Modifier.height(6.dp))
                     }
                 }
 
             }
-
-            /*Toast.makeText(context, "${character.id}", Toast.LENGTH_SHORT).show()*/
         }
     }
 }

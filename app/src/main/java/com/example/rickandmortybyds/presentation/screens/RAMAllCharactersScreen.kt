@@ -1,6 +1,5 @@
 package com.example.rickandmortybyds.presentation.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,10 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.rickandmortybyds.model.viewmodel.RAMAllCharactersVM
 import com.example.rickandmortybyds.utils.dialogs.CommonDialog
-import androidx.compose.foundation.lazy.items
 
 @Composable
 fun RAMAllCharactersScreen(
@@ -36,10 +34,6 @@ fun RAMAllCharactersScreen(
     val ramData by viewModel.rickAndMortyData.collectAsState()
 
     val characterList by viewModel.ramCharactersDB.collectAsState()
-
-    /*LaunchedEffect(Unit) {
-        viewModel.getRAMAllCharacters()
-    }*/
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -98,12 +92,7 @@ fun RAMAllCharactersScreen(
                     )
                     Text(character.name ?: "nada")
 
-
-
                 }
-
-
-
                 Spacer(modifier = Modifier.height(14.dp))
             }
         }
