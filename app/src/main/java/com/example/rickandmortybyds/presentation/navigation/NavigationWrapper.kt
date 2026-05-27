@@ -15,7 +15,7 @@ fun NavigationWrapper(navController: NavHostController) {
         navController = navController,
         startDestination = RAMAllCharactersRoute
     ) {
-
+// cambio de pc
         composable<RAMAllCharactersRoute> {
 
             RAMAllCharactersScreen(
