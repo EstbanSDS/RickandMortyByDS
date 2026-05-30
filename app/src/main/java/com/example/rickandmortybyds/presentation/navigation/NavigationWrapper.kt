@@ -19,7 +19,6 @@ fun NavigationWrapper(navController: NavHostController) {
         composable<RAMAllCharactersRoute> {
 
             RAMAllCharactersScreen(
-
                 navigateToCharacterDetail = { characterId ->
                     navController.navigate(RAMCharacterDetailRoute(characterId))
                 }
@@ -27,7 +26,6 @@ fun NavigationWrapper(navController: NavHostController) {
         }
 
         composable<RAMCharacterDetailRoute> { backStackEntry ->
-
             RAMACharacterDetailScreen(
                 navigationBack = { navController.navigate(RAMAllCharactersRoute) },
 
@@ -42,6 +40,9 @@ fun NavigationWrapper(navController: NavHostController) {
         composable<RAMEpisodeRoute> { backStackEntry ->
 
             RAMEpisodeDetailScreen(
+                navigateToRAMCharacterDetail = { characterId ->
+                    navController.navigate(RAMCharacterDetailRoute(characterId))
+                }
             )
         }
     }

@@ -42,10 +42,6 @@ fun RAMACharacterDetailScreen(
         mutableStateOf(false)
     }
 
-    /* LaunchedEffect(Unit) {
-         viewModel.getRAMCharacterById(characterId)
-     }*/
-
     if (character != null) {
         LaunchedEffect(character.id) {
             Toast.makeText(context, "${character.id}", Toast.LENGTH_SHORT).show()

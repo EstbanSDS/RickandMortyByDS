@@ -30,15 +30,14 @@ fun RAMAllCharactersScreen(
 
     navigateToCharacterDetail: (Int) -> Unit,
 ) {
-
     val ramData by viewModel.rickAndMortyData.collectAsState()
 
     val characterList by viewModel.ramCharactersDB.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
-    ) {
 
+    ) {
         val context = LocalContext.current
 
         if (ramData.loading) {
@@ -69,31 +68,31 @@ fun RAMAllCharactersScreen(
 
         LazyColumn(
             modifier = Modifier.weight(1f)
-
         )
         {
             items(characterList) { character ->
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-
                             character.id?.let { id ->
                                 navigateToCharacterDetail(id)
                             }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally
+
                 ) {
                     AsyncImage(
                         model = character.image,
                         contentDescription = character.name,
                         modifier = Modifier.size(150.dp)
                     )
-                    Text(character.name ?: "nada")
 
+                    Text(character.name ?: "Sin nombre")
                 }
+
                 Spacer(modifier = Modifier.height(14.dp))
+
             }
         }
     }
