@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortybyds.core.model.ramCharacters.RAMCharacterUiState
-import com.example.rickandmortybyds.domain.model.repository.RickAndMortyRepository
 import com.example.rickandmortybyds.domain.model.usecase.RickAndMortyUseCase
 import com.example.rickandmortybyds.utils.application.ApiServiceState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,6 +65,11 @@ class RAMCharacterDBViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+    fun closeAlertDialog() {
+        _ramCharacterDB.update {
+            it.copy(showErrorDialog = false)
         }
     }
 }

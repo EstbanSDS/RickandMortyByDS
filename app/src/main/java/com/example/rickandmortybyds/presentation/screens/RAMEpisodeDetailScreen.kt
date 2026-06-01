@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rickandmortybyds.model.viewmodel.RAMEpisodeVM
+import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
 @Composable
 fun RAMEpisodeDetailScreen(
@@ -71,4 +72,14 @@ fun RAMEpisodeDetailScreen(
             }
         }
     }
+    AlertCommonDialog(
+        showAlertDialog = ramEpisode.value.showErrorDialog,
+        title = "Algo salio mal",
+        message = "Intenta mas tarde...",
+        textOnAccept = "Aceptar",
+        onAccept = {
+            viewModel.closeAlertDialog()
+        }
+    ) { viewModel.closeAlertDialog() }
 }
+

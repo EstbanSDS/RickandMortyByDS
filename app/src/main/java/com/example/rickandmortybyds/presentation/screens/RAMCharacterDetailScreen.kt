@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
+import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
 
 @Composable
@@ -116,4 +117,14 @@ fun RAMACharacterDetailScreen(
             }
         }
     }
+    AlertCommonDialog(
+        showAlertDialog = ramCharacterDB.value.showErrorDialog,
+        title = "Algo salio mal",
+        message = "Intenta mas tarde...",
+        textOnAccept = "cancelar",
+        onAccept = {
+            viewModel.closeAlertDialog()
+        }
+    ) { viewModel.closeAlertDialog() }
+
 }

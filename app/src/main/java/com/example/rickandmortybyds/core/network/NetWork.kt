@@ -46,6 +46,26 @@ class NetWork @Inject constructor(@ApplicationContext val context: Context) {
         }
     }
 
+    suspend inline fun <T> executeRoomQuery(
+        crossinline dbQuery: suspend () -> T,
+    ): Flow<ApiServiceState<T>> {
+        return flow {
+            emit(ApiServiceState.Loading)
+            val data = dbQuery.invoke()
+            emit(ApiServiceState.Success(data))
+        }.catch { exception ->
+            // Maneja errores específicos de la base de datos aquí
+            emit(
+                ApiServiceState.Error(
+                    message = ErrorApiResponse(
+                        ramCode = 5001, // Código personalizado para errores locales
+                        descripcion = exception.localizedMessage ?: "Error en la base de datos"
+                    )
+                )
+            )
+        }
+    }
+
     fun <T> Flow<ApiServiceState<T>>.handleErrors(): Flow<ApiServiceState<T>> =
         catch { exception ->
             exception.printStackTrace()

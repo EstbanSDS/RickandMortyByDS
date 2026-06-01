@@ -66,4 +66,14 @@ class RAMEpisodeVM @Inject constructor(
             }
         }
     }
+
+    fun closeAlertDialog() {
+        _ramEpisodeNumber.update {
+            it.copy(showErrorDialog = false)
+        }
+    }
+
+  /*  En el error del servicio
+
+    showErrorDialog = true*/
 }

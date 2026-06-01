@@ -24,8 +24,14 @@ class RickAndMortyUseCaseImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCharacterByIdDB(characterId: Int): Flow<ApiServiceState<RAMCharacterResponse>> {
+    /*override suspend fun getCharacterByIdDB(characterId: Int): Flow<ApiServiceState<RAMCharacterResponse>> {
         return network.executeEndPoint {
+            repository.getCharacterByIdDB(characterId)
+        }
+    }*/
+
+    override suspend fun getCharacterByIdDB(characterId: Int): Flow<ApiServiceState<RAMCharacterResponse>> {
+        return network.executeRoomQuery {
             repository.getCharacterByIdDB(characterId)
         }
     }
