@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.rickandmortybyds.model.viewmodel.RAMAllCharactersVM
-import com.example.rickandmortybyds.utils.dialogs.CommonDialog
+import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
 @Composable
 fun RAMAllCharactersScreen(
@@ -30,34 +30,49 @@ fun RAMAllCharactersScreen(
 
     navigateToCharacterDetail: (Int) -> Unit,
 ) {
-
     val ramData by viewModel.rickAndMortyData.collectAsState()
 
     val characterList by viewModel.ramCharactersDB.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
-    ) {
 
+        ) {
         val context = LocalContext.current
 
         if (ramData.loading) {
             CircularProgressIndicator()
         }
-        if (ramData.showErrorDialog) {
-            CommonDialog(
-                title = ramData.codeError ?: "Error inesperado",
-                message = ramData.errorMessage ?: "Error inesperado",
-                onDismiss = { viewModel.resetErrorDialog() }
-            )
-        }
-        if (ramData.showErrorDialog) {
-            CommonDialog(
-                title = "¡Espera!",
-                message = "Por primera vez debes iniciar con una conección a internet",
-                onDismiss = { viewModel.resetErrorDialog() }
-            )
-        }
+        /* if (ramData.showErrorDialog) {
+             CommonDialog(
+                 title = ramData.codeError ?: "Error inesperado",
+                 message = ramData.errorMessage ?: "Error inesperado",
+                 onDismiss = { viewModel.resetErrorDialog() }
+             )
+         }
+         if (ramData.showErrorDialog) {
+             CommonDialog(
+                 title = "¡Espera!",
+                 message = "Por primera vez debes iniciar con una conección a internet",
+                 onDismiss = { viewModel.resetErrorDialog() }
+             )
+         }*/
+        AlertCommonDialog(
+            showAlertDialog = ramData.showErrorDialog,
+            title = ramData.codeError ?: "Error inesperado",
+            message = ramData.errorMessage ?: "Error inesperado",
+            onAccept = {},
+            onDismiss = { viewModel.resetErrorDialog() }
+        )
+
+        AlertCommonDialog(
+            showAlertDialog = ramData.showErrorDialog,
+            title = "¡Espera!",
+            message = "Por primera vez debes iniciar con una conección a internet",
+            onAccept = {},
+            onDismiss = { viewModel.resetErrorDialog() }
+        )
+
         Text(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -69,31 +84,31 @@ fun RAMAllCharactersScreen(
 
         LazyColumn(
             modifier = Modifier.weight(1f)
-
         )
         {
             items(characterList) { character ->
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-
                             character.id?.let { id ->
                                 navigateToCharacterDetail(id)
                             }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally
+
                 ) {
                     AsyncImage(
                         model = character.image,
                         contentDescription = character.name,
                         modifier = Modifier.size(150.dp)
                     )
-                    Text(character.name ?: "nada")
 
+                    Text(character.name ?: "Sin nombre")
                 }
+
                 Spacer(modifier = Modifier.height(14.dp))
+
             }
         }
     }

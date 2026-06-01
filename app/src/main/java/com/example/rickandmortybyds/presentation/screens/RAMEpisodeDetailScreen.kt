@@ -1,9 +1,11 @@
 package com.example.rickandmortybyds.presentation.screens
 
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rickandmortybyds.model.viewmodel.RAMEpisodeVM
+import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
 @Composable
 fun RAMEpisodeDetailScreen(
     viewModel: RAMEpisodeVM = hiltViewModel(),
+    navigateToRAMCharacterDetail: (Int) -> Unit,
 ) {
 
     val ramEpisode = viewModel.ramEpisodeNumber.collectAsState()
@@ -49,16 +53,33 @@ fun RAMEpisodeDetailScreen(
 
         LazyColumn {
 
-            items(
-                episode?.characters ?: emptyList()
-            ) { character ->
+            items(episode?.characters ?: emptyList()) { character ->
+                val characterNumber = character.substringAfterLast("/").toInt()
 
-                val characterNumber = character.substringAfterLast("/")
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navigateToRAMCharacterDetail(characterNumber)
+                        }
 
-                Text(
-                    text = "Personaje $characterNumber"
-                )
+                ) {
+
+                    Text(
+                        text = "Personaje $characterNumber"
+                    )
+                }
             }
         }
     }
+    AlertCommonDialog(
+        showAlertDialog = ramEpisode.value.showErrorDialog,
+        title = "Algo salio mal",
+        message = "Intenta mas tarde...",
+        textOnAccept = "Aceptar",
+        onAccept = {
+            viewModel.closeAlertDialog()
+        }
+    ) { viewModel.closeAlertDialog() }
 }
+
