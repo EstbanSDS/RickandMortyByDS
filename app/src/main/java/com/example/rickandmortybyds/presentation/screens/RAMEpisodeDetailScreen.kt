@@ -76,7 +76,7 @@ fun RAMEpisodeDetailScreen(
         showAlertDialog = ramEpisode.value.showErrorDialog,
         title = "Algo salio mal",
         message = "Intenta mas tarde...",
-        textOnAccept = "Aceptar",
+//        textOnAccept = "Aceptar",
         onAccept = {
             viewModel.closeAlertDialog()
         }

@@ -35,7 +35,8 @@ fun RAMACharacterDetailScreen(
     navigationBack: () -> Unit,
     navigateToEpisodeDetail: (Int) -> Unit,
 ) {
-    val ramCharacterDB = viewModel.ramCharacterDB.collectAsState()
+
+    val ramCharacterDB = viewModel.ramCharacter.collectAsState()
     val character = ramCharacterDB.value.rickAndMortyDetail
     val context = LocalContext.current
 
@@ -43,11 +44,14 @@ fun RAMACharacterDetailScreen(
         mutableStateOf(false)
     }
 
-    if (character != null) {
-        LaunchedEffect(character.id) {
-            Toast.makeText(context, "${character.id}", Toast.LENGTH_SHORT).show()
+    LaunchedEffect(character?.id) {
+        character?.let {
+            Toast.makeText(context, "${it.id}", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
 
     Column(
         modifier = Modifier

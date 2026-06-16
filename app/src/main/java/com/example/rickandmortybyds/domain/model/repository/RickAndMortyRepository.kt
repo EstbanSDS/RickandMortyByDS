@@ -15,5 +15,7 @@ interface RickAndMortyRepository {
 
     suspend fun getCharacterByIdDB(characterId: Int): RAMCharacterResponse
 
+    suspend fun getCharacterByIdAPI(characterId: Int): RAMCharacterResponse
+
     suspend fun getEpisodeByNumber(episodeNumber: Int): RAMEpisodeResponse
 }

@@ -1,5 +1,6 @@
 package com.example.rickandmortybyds.model.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,23 +22,30 @@ class RAMCharacterDBViewModel @Inject constructor(
     private val rickAndMortyUseCase: RickAndMortyUseCase,
 ) : ViewModel() {
 
+    private val _ramCharacter = MutableStateFlow(RAMCharacterUiState())
+    val ramCharacter: StateFlow<RAMCharacterUiState> = _ramCharacter.asStateFlow()
+
+
     private val characterID =
         checkNotNull(savedStateHandle.get<Int>("characterId")) // “Busca dentro del SavedStateHandle un valor llamado "characterId" de tipo Int”
 
     init {
-        getRAMCharacterById(characterID)
+
+
+        getRAMCharacterByIdDB(characterID)
+
+
     }
 
-    private val _ramCharacterDB = MutableStateFlow(RAMCharacterUiState())
-    val ramCharacterDB: StateFlow<RAMCharacterUiState> = _ramCharacterDB.asStateFlow()
 
-    fun getRAMCharacterById(characterID: Int) {
+
+    fun getRAMCharacterByIdDB(characterID: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             rickAndMortyUseCase.getCharacterByIdDB(characterID).collect { response ->
 
                 when (response) {
                     ApiServiceState.Loading -> {
-                        _ramCharacterDB.update {
+                        _ramCharacter.update {
                             it.copy(
                                 loading = true
                             )
@@ -46,7 +54,7 @@ class RAMCharacterDBViewModel @Inject constructor(
 
                     is ApiServiceState.Success -> {
                         response.data?.let { data ->
-                            _ramCharacterDB.update {
+                            _ramCharacter.update {
                                 it.copy(
                                     loading = false,
                                     rickAndMortyDetail = data
@@ -56,7 +64,7 @@ class RAMCharacterDBViewModel @Inject constructor(
                     }
 
                     is ApiServiceState.Error -> {
-                        _ramCharacterDB.update {
+                        _ramCharacter.update {
                             it.copy(
                                 loading = false,
                                 rickAndMortyDetail = null
@@ -67,8 +75,9 @@ class RAMCharacterDBViewModel @Inject constructor(
             }
         }
     }
+
     fun closeAlertDialog() {
-        _ramCharacterDB.update {
+        _ramCharacter.update {
             it.copy(showErrorDialog = false)
         }
     }

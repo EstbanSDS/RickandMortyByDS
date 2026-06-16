@@ -23,6 +23,7 @@ class RAMEpisodeVM @Inject constructor(
 
     private val episodeNumber =
         checkNotNull(savedStateHandle.get<Int>("episodeNumber"))
+
     init {
         getRAMEpisodeNumber(episodeNumber)
     }
@@ -58,7 +59,8 @@ class RAMEpisodeVM @Inject constructor(
                         _ramEpisodeNumber.update {
                             it.copy(
                                 loading = false,
-                                ramEpisodeNumberDetail = null
+                                ramEpisodeNumberDetail = null,
+                                showErrorDialog = true
                             )
                         }
                     }
@@ -72,8 +74,4 @@ class RAMEpisodeVM @Inject constructor(
             it.copy(showErrorDialog = false)
         }
     }
-
-  /*  En el error del servicio
-
-    showErrorDialog = true*/
 }

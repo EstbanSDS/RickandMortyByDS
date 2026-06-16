@@ -57,6 +57,12 @@ class RickAndMortyRepositoryImpl @Inject constructor(
         return character
     }
 
+    override suspend fun getCharacterByIdAPI(characterId: Int): RAMCharacterResponse {
+        return withContext(Dispatchers.IO){
+            apiService.getRAMCharacterById(characterId)
+        }
+    }
+
     override suspend fun getEpisodeByNumber(episodeNumber: Int): RAMEpisodeResponse {
        return withContext(Dispatchers.IO) {
            apiService.getRAMEpisodeByNumber(episodeNumber)

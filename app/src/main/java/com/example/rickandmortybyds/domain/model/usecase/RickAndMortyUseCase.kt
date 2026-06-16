@@ -10,5 +10,6 @@ interface RickAndMortyUseCase {
     suspend fun getRickAndMortyDetail():Flow<ApiServiceState<RickAndMortyDetailResponse>>
     suspend fun getAllCharactersDB(): Flow<ApiServiceState<RickAndMortyDetailResponse>>
     suspend fun getCharacterByIdDB(characterId: Int): Flow<ApiServiceState<RAMCharacterResponse>>
+    suspend fun getCharacterByIdAPI(characterId: Int): Flow<ApiServiceState<RAMCharacterResponse>>
     suspend fun getEpisodeByNumber(episodeNumber: Int): Flow<ApiServiceState<RAMEpisodeResponse>>
 }
