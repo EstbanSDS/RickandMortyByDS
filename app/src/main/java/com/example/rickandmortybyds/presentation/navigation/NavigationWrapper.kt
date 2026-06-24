@@ -7,13 +7,14 @@ import androidx.navigation.compose.composable
 import com.example.rickandmortybyds.presentation.screens.RAMACharacterDetailScreen
 import com.example.rickandmortybyds.presentation.screens.RAMAllCharactersScreen
 import com.example.rickandmortybyds.presentation.screens.RAMEpisodeDetailScreen
+import com.example.rickandmortybyds.presentation.screens.RAMLogin
 
 @Composable
 fun NavigationWrapper(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = RAMAllCharactersRoute
+        startDestination = RAMLoginRoute()
     ) {
 
         composable<RAMAllCharactersRoute> {
@@ -45,5 +46,18 @@ fun NavigationWrapper(navController: NavHostController) {
                 }
             )
         }
+
+        composable<RAMLoginRoute> { backStackEntry ->
+
+            RAMLogin(
+
+                navigateToRAMAllCharacters = {
+                    navController.navigate(RAMAllCharactersRoute)
+                }
+            )
+
+
+        }
+
     }
 }

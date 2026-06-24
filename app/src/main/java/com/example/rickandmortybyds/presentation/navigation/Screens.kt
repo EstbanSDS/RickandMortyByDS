@@ -14,3 +14,9 @@ data class RAMCharacterDetailRoute(
 data class RAMEpisodeRoute(
     val episodeNumber: Int
 )
+
+@Serializable
+data class RAMLoginRoute(
+    val login: String = "",
+    val password: String = ""
+)
