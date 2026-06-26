@@ -12,4 +12,5 @@ object Constants {
     const val GET_ALL_CHARACTERS = "character"
     const val GET_EPISODE = "episode/{id}"
     const val GET_CHARACTER = "character/{id}"
+
  }

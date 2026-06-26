@@ -3,6 +3,7 @@ package com.example.rickandmortybyds.model.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortybyds.core.model.ramCharacters.RickAndMortyUiState
+import com.example.rickandmortybyds.domain.model.repository.LoginRepository
 import com.example.rickandmortybyds.domain.model.repository.RickAndMortyRepository
 import com.example.rickandmortybyds.domain.model.usecase.RickAndMortyUseCase
 import com.example.rickandmortybyds.utils.application.ApiServiceState
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class RAMAllCharactersVM @Inject constructor(
     private val rickAndMortyUseCase: RickAndMortyUseCase,
     private val rickAndMortyRepository: RickAndMortyRepository,
+    private val loginRepository: LoginRepository
 ) : ViewModel() {
 
     init {
@@ -29,6 +31,9 @@ class RAMAllCharactersVM @Inject constructor(
 
     private val _rickAndMortyData = MutableStateFlow(RickAndMortyUiState())
     val rickAndMortyData: StateFlow<RickAndMortyUiState> = _rickAndMortyData.asStateFlow()
+
+    private val _logoutEvent = MutableStateFlow(false)
+    val logoutEvent = _logoutEvent.asStateFlow()
 
     val ramCharactersDB = rickAndMortyRepository.getCharactersStream().stateIn(
         viewModelScope,
@@ -80,4 +85,12 @@ class RAMAllCharactersVM @Inject constructor(
             )
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            loginRepository.logout()
+            _logoutEvent.value = true
+        }
+    }
+
 }

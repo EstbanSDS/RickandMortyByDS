@@ -22,6 +22,10 @@ fun NavigationWrapper(navController: NavHostController) {
             RAMAllCharactersScreen(
                 navigateToCharacterDetail = { characterId ->
                     navController.navigate(RAMCharacterDetailRoute(characterId))
+                },
+
+                navigateToLogin = {
+                    navController.navigate(RAMLoginRoute)
                 }
             )
         }

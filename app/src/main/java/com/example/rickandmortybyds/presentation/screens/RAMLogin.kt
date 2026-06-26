@@ -1,56 +1,72 @@
 package com.example.rickandmortybyds.presentation.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.Navigation
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.rickandmortybyds.model.viewmodel.LoginViewModel
 
 @Composable
 fun RAMLogin(
-
-navigateToRAMAllCharacters: () -> Unit,
+    navigateToRAMAllCharacters: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+
+    val uiState = viewModel.uiState.collectAsState().value
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(
-            text = "Usuario"
-        )
+
+        Text(text = "Usuario")
 
         TextField(
-            value = "Usuario",
-            onValueChange = {},
+            value = email,
+            onValueChange = { email = it },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(
-            text = "Contraseña"
-        )
+        Text(text = "Contraseña")
 
         TextField(
-            value = "Contraseña",
-            onValueChange = {},
+            value = password,
+            onValueChange = { password = it },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(10.dp))
+
+        if (uiState.loading) {
+            CircularProgressIndicator()
+        }
+
+        uiState.errorMessage?.let {
+            Text(
+                text = it,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
 
         Button(
-            onClick = { navigateToRAMAllCharacters() }
-        ) { Text("Iniciar Sesión") }
+            onClick = {
+                viewModel.login(email, password)
+            },
+            enabled = !uiState.loading
+        ) {
+            Text("Iniciar Sesión")
+        }
 
-
+        LaunchedEffect(uiState.isLoginSuccess) {
+            if (uiState.isLoginSuccess) {
+                navigateToRAMAllCharacters()
+            }
+        }
     }
-
 }

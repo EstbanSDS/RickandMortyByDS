@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,10 +31,20 @@ fun RAMAllCharactersScreen(
     viewModel: RAMAllCharactersVM = hiltViewModel(),
 
     navigateToCharacterDetail: (Int) -> Unit,
+
+    navigateToLogin: () -> Unit
 ) {
     val ramData by viewModel.rickAndMortyData.collectAsState()
 
     val characterList by viewModel.ramCharactersDB.collectAsState()
+
+    val logoutEvent by viewModel.logoutEvent.collectAsState()
+
+    LaunchedEffect(logoutEvent) {
+        if (logoutEvent) {
+            navigateToLogin()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -81,6 +93,14 @@ fun RAMAllCharactersScreen(
         )
 
         Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = {
+                viewModel.logout()
+            }
+        ) {
+            Text("Cerrar sesión")
+        }
 
         LazyColumn(
             modifier = Modifier.weight(1f)

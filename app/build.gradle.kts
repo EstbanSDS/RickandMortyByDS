@@ -118,9 +118,14 @@ dependencies {
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
 
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     // Hilt Navigation
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Kotlin Serialization (Para navegación Type-Safe)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+
+
 }
