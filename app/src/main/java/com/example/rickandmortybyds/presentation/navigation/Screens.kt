@@ -16,7 +16,4 @@ data class RAMEpisodeRoute(
 )
 
 @Serializable
-data class RAMLoginRoute(
-    val login: String = "",
-    val password: String = ""
-)
+object RAMLoginRoute

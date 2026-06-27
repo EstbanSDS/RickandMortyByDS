@@ -14,7 +14,7 @@ fun NavigationWrapper(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = RAMLoginRoute()
+        startDestination = RAMLoginRoute
     ) {
 
         composable<RAMAllCharactersRoute> {
