@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
@@ -44,14 +45,13 @@ fun RAMACharacterDetailScreen(
         mutableStateOf(false)
     }
 
+    val userRole by viewModel.userRole.collectAsState()
+
     LaunchedEffect(character?.id) {
         character?.let {
             Toast.makeText(context, "${it.id}", Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
 
     Column(
         modifier = Modifier
@@ -92,7 +92,9 @@ fun RAMACharacterDetailScreen(
                     "Mostrar episodios ▼",
 
                 modifier = Modifier.clickable {
-                    showEpisodes = !showEpisodes
+                    if (userRole != UserRole.ADMIN.name) {
+                        showEpisodes = !showEpisodes
+                    }
                 }
             )
             Spacer(modifier = Modifier.height(10.dp))

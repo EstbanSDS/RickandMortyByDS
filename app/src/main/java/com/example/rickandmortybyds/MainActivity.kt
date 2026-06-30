@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RAMScaffold(){
+fun RAMScaffold() {
     val navController = rememberNavController()
     Scaffold(
         containerColor = Color.Transparent,
@@ -65,7 +65,7 @@ fun RAMScaffold(){
             )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)){
+        Box(modifier = Modifier.padding(innerPadding)) {
             NavigationWrapper(navController)
         }
     }

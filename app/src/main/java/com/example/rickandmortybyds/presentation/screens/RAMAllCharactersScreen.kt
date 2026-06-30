@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.model.viewmodel.RAMAllCharactersVM
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
@@ -32,13 +33,15 @@ fun RAMAllCharactersScreen(
 
     navigateToCharacterDetail: (Int) -> Unit,
 
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
 ) {
     val ramData by viewModel.rickAndMortyData.collectAsState()
 
     val characterList by viewModel.ramCharactersDB.collectAsState()
 
     val logoutEvent by viewModel.logoutEvent.collectAsState()
+
+    val userRole by viewModel.userRole.collectAsState()
 
     LaunchedEffect(logoutEvent) {
         if (logoutEvent) {
@@ -86,6 +89,12 @@ fun RAMAllCharactersScreen(
         )
 
         Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Rol: $userRole",
+            textAlign = TextAlign.Center
+        )
+
+        Text(
             modifier = Modifier
                 .fillMaxWidth(),
             text = "Por primera vez debes iniciar con una conección a internet",
@@ -111,8 +120,10 @@ fun RAMAllCharactersScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            character.id?.let { id ->
-                                navigateToCharacterDetail(id)
+                            if (userRole != UserRole.USER.name) {
+                                character.id?.let { id ->
+                                    navigateToCharacterDetail(id)
+                                }
                             }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally

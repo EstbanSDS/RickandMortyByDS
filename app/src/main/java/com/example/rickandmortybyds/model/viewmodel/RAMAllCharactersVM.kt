@@ -22,7 +22,7 @@ import javax.inject.Inject
 class RAMAllCharactersVM @Inject constructor(
     private val rickAndMortyUseCase: RickAndMortyUseCase,
     private val rickAndMortyRepository: RickAndMortyRepository,
-    private val loginRepository: LoginRepository
+    private val loginRepository: LoginRepository,
 ) : ViewModel() {
 
     init {
@@ -40,6 +40,13 @@ class RAMAllCharactersVM @Inject constructor(
         SharingStarted.WhileSubscribed(5000),
         emptyList()
     )
+
+    val userRole = loginRepository.getUserRole().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ""
+    )
+
 
     fun getRAMAllCharacters() {
         viewModelScope.launch(Dispatchers.IO) {

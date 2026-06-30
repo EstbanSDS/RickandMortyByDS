@@ -54,14 +54,10 @@ fun NavigationWrapper(navController: NavHostController) {
         composable<RAMLoginRoute> { backStackEntry ->
 
             RAMLogin(
-
                 navigateToRAMAllCharacters = {
                     navController.navigate(RAMAllCharactersRoute)
                 }
             )
-
-
         }
-
     }
 }

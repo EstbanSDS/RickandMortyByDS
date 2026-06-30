@@ -68,7 +68,7 @@ class SessionManager(
             preferences[USER_ROLE] ?: ""
         }
 
-    // 🔥 NUEVO: estado real de login
+    //  estado real de login
     val isLoggedIn: Flow<Boolean> =
         context.dataStore.data.map { preferences ->
             preferences[IS_LOGGED_IN] ?: false

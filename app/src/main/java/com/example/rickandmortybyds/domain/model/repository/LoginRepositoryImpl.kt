@@ -3,6 +3,7 @@ package com.example.rickandmortybyds.domain.model.repository
 import com.example.rickandmortybyds.core.model.login.LoginUser
 import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.data.datastore.SessionManager
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
@@ -63,5 +64,9 @@ class LoginRepositoryImpl @Inject constructor(
 
         sessionManager.clearSession()
 
+    }
+
+    override fun getUserRole(): Flow<String> {
+        return sessionManager.userRole
     }
 }
