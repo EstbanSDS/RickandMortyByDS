@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +24,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.model.viewmodel.RAMAllCharactersVM
+import com.example.rickandmortybyds.ui.components.buttons.RAMButton
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
+import com.example.rickandmortybyds.ui.components.scaffold.RAMScreen
 
 @Composable
 fun RAMAllCharactersScreen(
@@ -48,98 +49,105 @@ fun RAMAllCharactersScreen(
             navigateToLogin()
         }
     }
+    // Surface es el componente base de Material Design
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
+    RAMScreen {
 
-        ) {
-        val context = LocalContext.current
+        Column(
+            modifier = Modifier.fillMaxSize(),
 
-        if (ramData.loading) {
-            CircularProgressIndicator()
-        }
-        /* if (ramData.showErrorDialog) {
-             CommonDialog(
-                 title = ramData.codeError ?: "Error inesperado",
-                 message = ramData.errorMessage ?: "Error inesperado",
-                 onDismiss = { viewModel.resetErrorDialog() }
-             )
-         }
-         if (ramData.showErrorDialog) {
-             CommonDialog(
-                 title = "¡Espera!",
-                 message = "Por primera vez debes iniciar con una conección a internet",
-                 onDismiss = { viewModel.resetErrorDialog() }
-             )
-         }*/
-        AlertCommonDialog(
-            showAlertDialog = ramData.showErrorDialog,
-            title = ramData.codeError ?: "Error inesperado",
-            message = ramData.errorMessage ?: "Error inesperado",
-            onAccept = {},
-            onDismiss = { viewModel.resetErrorDialog() }
-        )
+            ) {
+            val context = LocalContext.current
 
-        AlertCommonDialog(
-            showAlertDialog = ramData.showErrorDialog,
-            title = "¡Espera!",
-            message = "Por primera vez debes iniciar con una conección a internet",
-            onAccept = {},
-            onDismiss = { viewModel.resetErrorDialog() }
-        )
-
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Rol: $userRole",
-            textAlign = TextAlign.Center
-        )
-
-        Text(
-            modifier = Modifier
-                .fillMaxWidth(),
-            text = "Por primera vez debes iniciar con una conección a internet",
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-                viewModel.logout()
+            if (ramData.loading) {
+                CircularProgressIndicator()
             }
-        ) {
-            Text("Cerrar sesión")
-        }
+            /* if (ramData.showErrorDialog) {
+                 CommonDialog(
+                     title = ramData.codeError ?: "Error inesperado",
+                     message = ramData.errorMessage ?: "Error inesperado",
+                     onDismiss = { viewModel.resetErrorDialog() }
+                 )
+             }
+             if (ramData.showErrorDialog) {
+                 CommonDialog(
+                     title = "¡Espera!",
+                     message = "Por primera vez debes iniciar con una conección a internet",
+                     onDismiss = { viewModel.resetErrorDialog() }
+                 )
+             }*/
+            AlertCommonDialog(
+                showAlertDialog = ramData.showErrorDialog,
+                title = ramData.codeError ?: "Error inesperado",
+                message = ramData.errorMessage ?: "Error inesperado",
+                onAccept = {},
+                onDismiss = { viewModel.resetErrorDialog() }
+            )
 
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        )
-        {
-            items(characterList) { character ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            if (userRole != UserRole.USER.name) {
-                                character.id?.let { id ->
-                                    navigateToCharacterDetail(id)
-                                }
-                            }
-                        },
-                    horizontalAlignment = Alignment.CenterHorizontally
+            AlertCommonDialog(
+                showAlertDialog = ramData.showErrorDialog,
+                title = "¡Espera!",
+                message = "Por primera vez debes iniciar con una conección a internet",
+                onAccept = {},
+                onDismiss = { viewModel.resetErrorDialog() }
+            )
 
-                ) {
-                    AsyncImage(
-                        model = character.image,
-                        contentDescription = character.name,
-                        modifier = Modifier.size(150.dp)
-                    )
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Rol: $userRole",
+                textAlign = TextAlign.Center
+            )
 
-                    Text(character.name ?: "Sin nombre")
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "Por primera vez debes iniciar con una conección a internet",
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            RAMButton(
+                text = "Cerrar sesión",
+                modifier = Modifier
+                    .height(40.dp),
+                enabled = true,     // userRole == UserRole.SUPER_USER.name,
+                loading = ramData.loading,
+                onClick = {
+                    viewModel.logout()
                 }
+            )
 
-                Spacer(modifier = Modifier.height(14.dp))
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            )
+            {
+                items(characterList) { character ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                if (userRole != UserRole.USER.name) {
+                                    character.id?.let { id ->
+                                        navigateToCharacterDetail(id)
+                                    }
+                                }
+                            },
+                        horizontalAlignment = Alignment.CenterHorizontally
 
+                    ) {
+                        AsyncImage(
+                            model = character.image,
+                            contentDescription = character.name,
+                            modifier = Modifier.size(150.dp)
+                        )
+
+                        Text(character.name ?: "Sin nombre")
+                    }
+
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                }
             }
         }
     }

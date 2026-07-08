@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rickandmortybyds.model.viewmodel.LoginViewModel
+import com.example.rickandmortybyds.ui.components.buttons.RAMButton
 
 @Composable
 fun RAMLogin(
@@ -54,14 +55,10 @@ fun RAMLogin(
             )
         }
 
-        Button(
-            onClick = {
-                viewModel.login(email, password)
-            },
-            enabled = !uiState.loading
-        ) {
-            Text("Iniciar Sesión")
-        }
+        RAMButton(
+            text = "Iniciar Sesión",
+            onClick = { viewModel.login(email, password) },
+        )
 
         LaunchedEffect(uiState.isLoginSuccess) {
             if (uiState.isLoginSuccess) {

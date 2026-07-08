@@ -42,7 +42,7 @@ class LoginViewModel @Inject constructor(
             } else {
                 LoginUiState(
                     loading = false,
-                    errorMessage = "Credenciales incorrectas"
+                    errorMessage = "Usuario o contraseña incorrectos"
                 )
             }
         }
