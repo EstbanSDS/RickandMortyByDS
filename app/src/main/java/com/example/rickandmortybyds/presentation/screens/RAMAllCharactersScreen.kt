@@ -1,6 +1,5 @@
 package com.example.rickandmortybyds.presentation.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,8 +24,9 @@ import coil.compose.AsyncImage
 import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.model.viewmodel.RAMAllCharactersVM
 import com.example.rickandmortybyds.ui.components.buttons.RAMButton
-import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
+import com.example.rickandmortybyds.ui.components.loading.RAMLoading
 import com.example.rickandmortybyds.ui.components.scaffold.RAMScreen
+import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
 @Composable
 fun RAMAllCharactersScreen(
@@ -140,16 +137,9 @@ fun RAMAllCharactersScreen(
                 }
             }
 
-            if (ramData.loading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+            RAMLoading(
+                visible = ramData.loading
+            )
         }
     }
 }
