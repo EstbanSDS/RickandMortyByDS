@@ -1,15 +1,20 @@
 package com.example.rickandmortybyds.presentation.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,17 +36,13 @@ import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 @Composable
 fun RAMAllCharactersScreen(
     viewModel: RAMAllCharactersVM = hiltViewModel(),
-
     navigateToCharacterDetail: (Int) -> Unit,
-
     navigateToLogin: () -> Unit,
 ) {
+
     val ramData by viewModel.rickAndMortyData.collectAsState()
-
     val characterList by viewModel.ramCharactersDB.collectAsState()
-
     val logoutEvent by viewModel.logoutEvent.collectAsState()
-
     val userRole by viewModel.userRole.collectAsState()
 
     LaunchedEffect(logoutEvent) {
@@ -49,45 +50,43 @@ fun RAMAllCharactersScreen(
             navigateToLogin()
         }
     }
-    // Surface es el componente base de Material Design
 
     RAMScreen {
-
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
         ) {
 
             Column(
-                modifier = Modifier.fillMaxSize(),
-
-                ) {
-
-                AlertCommonDialog(
-                    showAlertDialog = ramData.showErrorDialog,
-                    title = ramData.codeError ?: "Error inesperado",
-                    message = ramData.errorMessage ?: "Error inesperado",
-                    onAccept = {},
-                    onDismiss = { viewModel.resetErrorDialog() }
-                )
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
 
                 AlertCommonDialog(
                     showAlertDialog = ramData.showErrorDialog,
-                    title = "¡Espera!",
-                    message = "Por primera vez debes iniciar con una conección a internet",
+                    title = ramData.codeError
+                        ?: "Error inesperado",
+                    message = ramData.errorMessage
+                        ?: "Error inesperado",
                     onAccept = {},
-                    onDismiss = { viewModel.resetErrorDialog() }
+                    onDismiss = {
+                        viewModel.resetErrorDialog()
+                    }
                 )
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Rol: $userRole",
+                    text = "Rick & Morty",
+                    style = MaterialTheme.typography.headlineMedium,
                     textAlign = TextAlign.Center
                 )
 
+                Spacer(modifier = Modifier.height(8.dp))
+
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = "Por primera vez debes iniciar con una conección a internet",
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Sesión: $userRole",
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center
                 )
 
@@ -96,20 +95,32 @@ fun RAMAllCharactersScreen(
                 RAMButton(
                     text = "Cerrar sesión",
                     modifier = Modifier
-                        .height(40.dp),
-                    enabled = true,     // userRole == UserRole.SUPER_USER.name,
+                        .fillMaxWidth()
+                        .height(45.dp),
+                    enabled = true,
                     loading = ramData.loading,
                     onClick = {
                         viewModel.logout()
                     }
                 )
 
-                LazyColumn(
-                    modifier = Modifier.weight(1f)
-                )
-                {
+                Spacer(modifier = Modifier.height(20.dp))
+
+                LazyVerticalGrid(
+                    // Define que existirán dos columnas fijas
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.weight(1f),
+
+                    // Separación vertical entre filas
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+
+                    // Separación horizontal entre columnas
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+
                     items(characterList) { character ->
-                        Column(
+
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
@@ -118,26 +129,39 @@ fun RAMAllCharactersScreen(
                                             navigateToCharacterDetail(id)
                                         }
                                     }
-                                },
-                            horizontalAlignment = Alignment.CenterHorizontally
-
+                                }
                         ) {
-                            AsyncImage(
-                                model = character.image,
-                                contentDescription = character.name,
-                                modifier = Modifier.size(150.dp)
-                            )
 
-                            Text(character.name ?: "Sin nombre")
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                AsyncImage(
+                                    model = character.image,
+                                    contentDescription = character.name,
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                )
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Text(
+                                    text = character.name
+                                        ?: "Sin nombre",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
-
-                        Spacer(modifier = Modifier.height(14.dp))
-
                     }
                 }
             }
 
             RAMLoading(
+
                 visible = ramData.loading
             )
         }
