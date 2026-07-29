@@ -47,11 +47,7 @@ fun RAMACharacterDetailScreen(
 
     val userRole by viewModel.userRole.collectAsState()
 
-    LaunchedEffect(character?.id) {
-        character?.let {
-            Toast.makeText(context, "${it.id}", Toast.LENGTH_SHORT).show()
-        }
-    }
+    LaunchedEffect(character?.id){}
 
     Column(
         modifier = Modifier
