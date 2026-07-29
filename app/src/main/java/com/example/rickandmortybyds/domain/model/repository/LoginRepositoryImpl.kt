@@ -69,4 +69,8 @@ class LoginRepositoryImpl @Inject constructor(
     override fun getUserRole(): Flow<String> {
         return sessionManager.userRole
     }
+
+    override fun isLoggedIn(): Flow<Boolean> {
+        return sessionManager.isLoggedIn
+    }
 }

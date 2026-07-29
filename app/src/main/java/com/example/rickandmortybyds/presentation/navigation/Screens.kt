@@ -17,3 +17,6 @@ data class RAMEpisodeRoute(
 
 @Serializable
 object RAMLoginRoute
+
+@Serializable
+object RAMSplashRoute
