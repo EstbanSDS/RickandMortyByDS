@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.rickandmortybyds.presentation.navigation.NavigationWrapper
 import com.example.rickandmortybyds.ui.components.scaffold.RAMScreen
-import com.example.rickandmortybyds.ui.theme.RickandMortyByDSTheme
+import com.example.rickandmortybyds.ui.theme.RickAndMortyByDSTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            RickandMortyByDSTheme{
+            RickAndMortyByDSTheme{
 
                 RAMScaffold()
 

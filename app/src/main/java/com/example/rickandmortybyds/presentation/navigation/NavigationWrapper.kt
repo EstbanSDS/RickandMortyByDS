@@ -66,6 +66,9 @@ fun NavigationWrapper(navController: NavHostController) {
             RAMEpisodeDetailScreen(
                 navigateToRAMCharacterDetail = { characterId ->
                     navController.navigate(RAMCharacterDetailRoute(characterId))
+                },
+                navigateToRAMAllCharacters = {
+                    navController.navigate(RAMAllCharactersRoute)
                 }
             )
         }

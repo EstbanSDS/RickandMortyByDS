@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,7 @@ import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 fun RAMEpisodeDetailScreen(
     viewModel: RAMEpisodeVM = hiltViewModel(),
     navigateToRAMCharacterDetail: (Int) -> Unit,
+    navigateToRAMAllCharacters: () -> Unit
 ) {
 
     val ramEpisode = viewModel.ramEpisodeNumber.collectAsState()
@@ -42,6 +44,16 @@ fun RAMEpisodeDetailScreen(
         Text(
             text = "Nombre del episodio: ${episode?.name}"
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = {
+                navigateToRAMAllCharacters()
+            }
+        ) {
+            Text(text = "Ver todos los personajes")
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
