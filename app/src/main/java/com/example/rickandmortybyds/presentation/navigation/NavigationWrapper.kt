@@ -9,9 +9,13 @@ import com.example.rickandmortybyds.presentation.screens.RAMAllCharactersScreen
 import com.example.rickandmortybyds.presentation.screens.RAMEpisodeDetailScreen
 import com.example.rickandmortybyds.presentation.screens.RAMLogin
 import com.example.rickandmortybyds.presentation.screens.RAMSplashScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.rickandmortybyds.model.viewmodel.SharedViewModel
 
 @Composable
 fun NavigationWrapper(navController: NavHostController) {
+
+    val sharedViewModel: SharedViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -40,6 +44,9 @@ fun NavigationWrapper(navController: NavHostController) {
 
         composable<RAMAllCharactersRoute> {
             RAMAllCharactersScreen(
+                sharedViewModel = sharedViewModel,
+
+
                 navigateToCharacterDetail = { characterId ->
                     navController.navigate(RAMCharacterDetailRoute(characterId))
                 },
@@ -52,6 +59,9 @@ fun NavigationWrapper(navController: NavHostController) {
 
         composable<RAMCharacterDetailRoute> { backStackEntry ->
             RAMACharacterDetailScreen(
+
+                sharedViewModel = sharedViewModel,
+
                 navigationBack = { navController.navigate(RAMAllCharactersRoute) },
 
                 navigateToEpisodeDetail = { episodeNumber ->
@@ -64,6 +74,9 @@ fun NavigationWrapper(navController: NavHostController) {
 
         composable<RAMEpisodeRoute> { backStackEntry ->
             RAMEpisodeDetailScreen(
+
+                sharedViewModel = sharedViewModel,
+
                 navigateToRAMCharacterDetail = { characterId ->
                     navController.navigate(RAMCharacterDetailRoute(characterId))
                 },

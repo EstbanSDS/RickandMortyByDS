@@ -33,12 +33,15 @@ import com.example.rickandmortybyds.ui.components.buttons.RAMButton
 import com.example.rickandmortybyds.ui.components.loading.RAMLoading
 import com.example.rickandmortybyds.ui.components.scaffold.RAMScreen
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
+import com.example.rickandmortybyds.model.viewmodel.SharedViewModel
 
 @Composable
 fun RAMAllCharactersScreen(
     viewModel: RAMAllCharactersVM = hiltViewModel(),
+    sharedViewModel: SharedViewModel,
     navigateToCharacterDetail: (Int) -> Unit,
     navigateToLogin: () -> Unit,
+
 ) {
 
     val ramData by viewModel.rickAndMortyData.collectAsState()

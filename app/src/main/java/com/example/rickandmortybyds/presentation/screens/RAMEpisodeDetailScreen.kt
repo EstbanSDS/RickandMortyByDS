@@ -18,10 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rickandmortybyds.model.viewmodel.RAMEpisodeVM
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
+import com.example.rickandmortybyds.model.viewmodel.SharedViewModel
 
 @Composable
 fun RAMEpisodeDetailScreen(
     viewModel: RAMEpisodeVM = hiltViewModel(),
+    sharedViewModel: SharedViewModel,
     navigateToRAMCharacterDetail: (Int) -> Unit,
     navigateToRAMAllCharacters: () -> Unit
 ) {

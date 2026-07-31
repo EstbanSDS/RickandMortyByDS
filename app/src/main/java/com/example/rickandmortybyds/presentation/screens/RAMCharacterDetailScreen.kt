@@ -1,6 +1,5 @@
 package com.example.rickandmortybyds.presentation.screens
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,12 +26,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
+import com.example.rickandmortybyds.model.viewmodel.SharedViewModel
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
 
 
 @Composable
 fun RAMACharacterDetailScreen(
     viewModel: RAMCharacterDBViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel,
     navigationBack: () -> Unit,
     navigateToEpisodeDetail: (Int) -> Unit,
 ) {
