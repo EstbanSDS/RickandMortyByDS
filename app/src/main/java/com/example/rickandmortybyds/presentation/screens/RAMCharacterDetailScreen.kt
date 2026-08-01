@@ -28,6 +28,8 @@ import com.example.rickandmortybyds.core.model.login.UserRole
 import com.example.rickandmortybyds.model.viewmodel.RAMCharacterDBViewModel
 import com.example.rickandmortybyds.model.viewmodel.SharedViewModel
 import com.example.rickandmortybyds.utils.dialogs.AlertCommonDialog
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 
 @Composable
@@ -48,7 +50,28 @@ fun RAMACharacterDetailScreen(
 
     val userRole by viewModel.userRole.collectAsState()
 
-    LaunchedEffect(character?.id){}
+    LaunchedEffect(character?.id){
+        character?.let { currentCharacter ->        // Si character existe guárdalo en la variable llamada currentCharacter y trabaja con ella
+
+            val createdDate = currentCharacter.created?.let {   // si created existe usalo
+                    OffsetDateTime.parse(it)
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                }
+                ?: ""
+
+            sharedViewModel.saveCharacterInfo(
+                id = currentCharacter.id ?: 0,
+                characterName = currentCharacter.name.orEmpty(),
+                status = currentCharacter.status.orEmpty(),
+                fechaCreado = createdDate
+            )
+
+            sharedViewModel.saveLocation(
+                originName = currentCharacter.origin?.name.orEmpty(),
+                nameLocation = currentCharacter.location?.name.orEmpty()
+            )
+        }
+    }
 
     Column(
         modifier = Modifier

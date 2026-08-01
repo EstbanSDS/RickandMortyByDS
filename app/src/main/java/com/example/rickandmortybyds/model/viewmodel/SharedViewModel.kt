@@ -19,13 +19,37 @@ class SharedViewModel : ViewModel() {
     fun saveCharacterInfo(
         id: Int,
         characterName: String,
-        status: String
+        status: String,
+        fechaCreado: String
     ) {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val currentDate = LocalDateTime.now().format(formatter)
+
         _characterResult.update { currentCharacter ->
+
+            val creationDate =
+                if (currentCharacter.fechaCreacion.isEmpty()) {
+                    currentDate
+                }
+                else {
+                    currentCharacter.fechaCreacion
+                }
+
+            val modificationDate =
+                if (currentCharacter.fechaModificacion.isEmpty()) {
+                    creationDate
+                }
+                else {
+                    currentCharacter.fechaModificacion
+                }
+
             currentCharacter.copy(
                 id = id,
                 characterName = characterName,
-                status = status
+                status = status,
+                fechaCreado = fechaCreado,
+                fechaCreacion = creationDate,
+                fechaModificacion = modificationDate
             )
         }
     }
